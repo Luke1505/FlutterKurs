@@ -20,14 +20,14 @@ class _HomePageState extends State<HomePage> {
     super.initState();
   }
 
+  void createSnackBar(String text, BuildContext context) {
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Text(text),
+    ));
+  }
+
   @override
   Widget build(BuildContext context) {
-    void createSnackBar(String text) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text(text),
-      ));
-    }
-
     return Scaffold(
       body: SafeArea(
           child: Column(
@@ -45,7 +45,7 @@ class _HomePageState extends State<HomePage> {
                   onPressed: () => {
                         setState((() => {
                               fontSize++,
-                              createSnackBar("Schriftart vergrößert.")
+                              createSnackBar("Schriftart vergrößert.", context)
                             }))
                       },
                   child: const Icon(Icons.add)),
@@ -53,7 +53,7 @@ class _HomePageState extends State<HomePage> {
                   onPressed: () => {
                         setState((() => {
                               fontSize--,
-                              createSnackBar("Schriftart verkleinert.")
+                              createSnackBar("Schriftart verkleinert.", context)
                             }))
                       },
                   child: const Icon(Icons.remove)),
@@ -61,7 +61,7 @@ class _HomePageState extends State<HomePage> {
                 onPressed: () => {
                   setState((() => {
                         fontSize = standartFontSize,
-                        createSnackBar("Schriftart zurückgesetzt.")
+                        createSnackBar("Schriftart zurückgesetzt.", context)
                       }))
                 },
                 child: const Icon(Icons.replay_outlined),
