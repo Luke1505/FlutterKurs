@@ -12,7 +12,8 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final double standartFontSize = 18;
   late double fontSize;
-  Color color = Colors.red.shade900;
+  // Farbe
+  Color color = const Color.fromARGB(255, 114, 137, 218);
 
   @override
   void initState() {
@@ -20,10 +21,35 @@ class _HomePageState extends State<HomePage> {
     super.initState();
   }
 
-  void createSnackBar(String text, BuildContext context) {
+  void createSnackBar({String? text, required BuildContext context}) {
+    ScaffoldMessenger.of(context).clearSnackBars();
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: Text(text),
+      content: Text(text ?? ''),
+      duration: const Duration(milliseconds: 50),
     ));
+  }
+
+  void createAlertDialog() {
+    Widget alert = AlertDialog(
+      title: const Text("Test Alert."),
+      content: const Text("Dies ist eine Test Nachricht"),
+      actions: [
+        TextButton(
+            onPressed: () => {
+                  createSnackBar(context: context, text: "Du hast Ja gedrückt"),
+                  Navigator.of(context).pop()
+                },
+            child: const Text("Ja")),
+        TextButton(
+            onPressed: () => {
+                  createSnackBar(
+                      context: context, text: "Du hast Nein gedrückt"),
+                  Navigator.of(context).pop()
+                },
+            child: const Text("Nein"))
+      ],
+    );
+    showDialog(context: context, builder: (context) => alert);
   }
 
   @override
@@ -42,32 +68,42 @@ class _HomePageState extends State<HomePage> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               ElevatedButton(
-                  onPressed: () => {
-                        setState((() => {
-                              fontSize++,
-                              createSnackBar("Schriftart vergrößert.", context)
-                            }))
-                      },
-                  child: const Icon(Icons.add)),
+                onPressed: () => {
+                  setState((() => {
+                        fontSize++,
+                        createSnackBar(
+                            text: "Schriftart vergrößert.", context: context)
+                      }))
+                },
+                style: ElevatedButton.styleFrom(backgroundColor: color),
+                child: const Icon(Icons.add),
+              ),
               ElevatedButton(
                   onPressed: () => {
                         setState((() => {
                               fontSize--,
-                              createSnackBar("Schriftart verkleinert.", context)
+                              createSnackBar(
+                                  text: "Schriftart verkleinert.",
+                                  context: context)
                             }))
                       },
+                  style: ElevatedButton.styleFrom(backgroundColor: color),
                   child: const Icon(Icons.remove)),
               ElevatedButton(
-                onPressed: () => {
-                  setState((() => {
-                        fontSize = standartFontSize,
-                        createSnackBar("Schriftart zurückgesetzt.", context)
-                      }))
-                },
-                child: const Icon(Icons.replay_outlined),
-              )
+                  onPressed: () => {
+                        setState((() => {
+                              fontSize = standartFontSize,
+                              createSnackBar(
+                                  text: "Schriftart zurückgesetzt.",
+                                  context: context),
+                              createAlertDialog()
+                            }))
+                      },
+                  style: ElevatedButton.styleFrom(backgroundColor: color),
+                  child: const Icon(Icons.replay_outlined))
             ],
           ),
+          const SizedBox(height: 40),
         ],
       )),
     );
