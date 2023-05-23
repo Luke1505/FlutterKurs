@@ -2,14 +2,20 @@ import 'package:flutter/material.dart';
 import 'pages/home.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  final ThemeData themeData = ThemeData.dark();
+  MyApp({super.key});
+
+  void setTheme(ThemeData theme) {}
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(home: HomePage());
+    return MaterialApp(
+      home: const HomePage(),
+      theme: themeData,
+    );
   }
 }
