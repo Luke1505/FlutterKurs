@@ -12,6 +12,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final double standartFontSize = 18;
   late double fontSize;
+  Color color = Colors.red.shade900;
 
   @override
   void initState() {
@@ -21,6 +22,12 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    void createSnackBar(String text) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(text),
+      ));
+    }
+
     return Scaffold(
       body: SafeArea(
           child: Column(
@@ -36,19 +43,29 @@ class _HomePageState extends State<HomePage> {
             children: [
               ElevatedButton(
                   onPressed: () => {
-                        setState((() => {fontSize++}))
+                        setState((() => {
+                              fontSize++,
+                              createSnackBar("Schriftart vergrößert.")
+                            }))
                       },
                   child: const Icon(Icons.add)),
               ElevatedButton(
                   onPressed: () => {
-                        setState((() => {fontSize--}))
+                        setState((() => {
+                              fontSize--,
+                              createSnackBar("Schriftart verkleinert.")
+                            }))
                       },
                   child: const Icon(Icons.remove)),
               ElevatedButton(
-                  onPressed: () => {
-                        setState((() => {fontSize = standartFontSize}))
-                      },
-                  child: const Icon(Icons.replay_outlined))
+                onPressed: () => {
+                  setState((() => {
+                        fontSize = standartFontSize,
+                        createSnackBar("Schriftart zurückgesetzt.")
+                      }))
+                },
+                child: const Icon(Icons.replay_outlined),
+              )
             ],
           ),
         ],
